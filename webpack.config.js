@@ -1,24 +1,31 @@
 const { mode } = require('webpack-nano/argv');
-const { WebpackPluginServe } = require("webpack-plugin-serve");
-const { MiniHtmlWebpackPlugin } = require('mini-html-webpack-plugin');
+const { merge } = require('webpack-merge');
+const parts = require('./webpack.parts');
 
-module.exports = {
-    watch: mode === 'development',
-    entry: ['./src', 'webpack-plugin-serve/client'],
-    mode,
-    plugins: [
-        new MiniHtmlWebpackPlugin({
-            context: {
-                title: "Demo"
-            }
-        }),
-        new WebpackPluginServe({
-            port: parseInt(process.env.PORT) || 8080,
-            static: './dist',
-            liveReload: true,
-            waitForBuild: true,
-            host: '127.0.0.1'
-        })
-    ],
-    target: 'web',
+const commonConfig = merge([
+    { entry: ['./src'] },
+    parts.page({ title: "Demo" })
+]);
+
+const productionConfig = merge([]);
+
+const developmentConfig = merge([
+    { entry: [ 'webpack-plugin-serve/client' ] },
+    parts.devServer()
+])
+
+const getConfig = (mode) => {
+    switch (mode) {
+        case "production":
+            return merge(commonConfig, productionConfig, { mode });
+            break;
+        case "development":
+            return merge(commonConfig, developmentConfig, { mode })
+            break;
+        default:
+            throw new Error(`Trying to use unknown mode: ${mode}`)
+            break;
+    }
 }
+
+module.exports = getConfig(mode)
