@@ -5,7 +5,8 @@ const parts = require('./webpack.parts');
 const commonConfig = merge([
     { entry: ['./src'] },
     parts.page({ title: "Demo" }),
-    parts.loadCSS()
+    parts.loadCSS(),
+    parts.extractCSS()
 ]);
 
 const productionConfig = merge([]);
@@ -19,13 +20,10 @@ const getConfig = (mode) => {
     switch (mode) {
         case "production":
             return merge(commonConfig, productionConfig, { mode });
-            break;
         case "development":
             return merge(commonConfig, developmentConfig, { mode })
-            break;
         default:
             throw new Error(`Trying to use unknown mode: ${mode}`)
-            break;
     }
 }
 
