@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "wp --mode production",
     "start": "wp --mode development",
-    "watch": "nodemon --watch webpack.* --exec \"npm run start\""
+    "watch": "nodemon --watch webpack* --exec \"npm run start\""
   },
   "keywords": [],
   "author": "",
