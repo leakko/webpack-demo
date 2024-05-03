@@ -1,6 +1,7 @@
 const { WebpackPluginServe } = require('webpack-plugin-serve');
 const { MiniHtmlWebpackPlugin } = require('mini-html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const tailwindcss = require("tailwindcss");
 
 exports.devServer = () => ({
     watch: true,
@@ -46,4 +47,13 @@ exports.extractCSS = ({options = {}, loaders = []} = {}) => ({
     plugins: [
         new MiniCssExtractPlugin({ filename: '[name].css' })
     ]
+})
+
+exports.tailwind = () => ({
+    loader: "postcss-loader",
+    options: {
+        postcssOptions: {
+            plugins: [ tailwindcss() ]
+        }
+    }
 })
