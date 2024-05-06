@@ -7,7 +7,8 @@ const cssLoaders = [ parts.autoprefix(), parts.tailwind() ];
 const commonConfig = merge([
     { entry: ['./src'] },
     parts.page({ title: "Demo" }),
-    parts.extractCSS({ loaders: cssLoaders })
+    parts.extractCSS({ loaders: cssLoaders }),
+    parts.loadImages({ limit: 15000 }),
 ]);
 
 const productionConfig = merge([]);
